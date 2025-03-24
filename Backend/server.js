@@ -12,7 +12,7 @@ const web3 = new Web3("http://127.0.0.1:7545");
 // Load compiled contract ABI and address
 const contractJSON = JSON.parse(fs.readFileSync("../Smart Contract/build/contracts/FundTransfer.json"));
 const contractABI = contractJSON.abi;
-const contractAddress = "0x60A4d8e042f432AdB4ed44C522Fd11b894502dC0";
+const contractAddress =process.env.CONTRACT_ADDRESS;
 
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 

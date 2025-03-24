@@ -1,3 +1,0 @@
-def main(private field sender_balance, field transfer_amount) -> (bool):
-    assert(sender_balance >= transfer_amount)
-    return true
