@@ -39,11 +39,12 @@ async function transferFunds() {
    const transactionId = document.getElementById("transactionId").value;
    const details = document.getElementById("details").value;
    const toAccount = document.getElementById("toaccountSelect").value;
+   const fromAccount = document.getElementById("fromaccountSelect").value;
 
    const response = await fetch(`${serverUrl}/transfer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, amount, transactionId, details,toAccount })
+      body: JSON.stringify({ id, amount, transactionId, details,fromAccount,toAccount })
    });
 
    const data = await response.json();

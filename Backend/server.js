@@ -27,15 +27,15 @@ web3.eth.getAccounts().then((acc) => (accounts = acc));
 // API: Transfer Funds
 app.post("/transfer", async (req, res) => {
    try {
-      const { id, amount, transactionId, details,toAccount } = req.body;
-      const sender = toAccount;
+      const { id, amount, transactionId, details,fromAccount,toAccount } = req.body;
+      const sender = fromAccount;
+      const receiver = toAccount;
 
       await contract.methods
-         .transferFund(id, amount, transactionId, details)
+         .transferFund(id,receiver, amount, transactionId, details)
          .send({
             from: sender,
             gas: 5000000, });
-
       res.status(200).json({ success: true, message: "Transaction successful" });
    } catch (error) {
       res.status(500).json({ success: false, error: error.message });
