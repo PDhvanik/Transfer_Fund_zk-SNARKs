@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Fund Transfer</title>
+      <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+      <script defer src="script.js"></script>
+   </head>
+
+   <body>
+      <h2>Transfer Funds</h2>
+      <label for="accountSelect">From Account:</label>
+      <select id="fromaccountSelect">
+         <option value="">Loading accounts...</option>
+      </select><br>
+      <label for="accountSelect">To Account:</label>
+      <select id="toaccountSelect">
+         <option value="">Loading accounts...</option>
+      </select><br>
+      <label>ID:</label> <input type="number" id="id"><br>
+      <label>Amount:</label> <input type="number" id="amount"><br>
+      <label>Transaction ID:</label> <input type="text" id="transactionId"><br>
+      <label>Details:</label> <input type="text" id="details"><br>
+      <button onclick="transferFunds()">Send Transaction</button>
+
+      <h2>Get Transaction</h2>
+      <label>Transaction ID:</label> <input type="number" id="searchId">
+      <button onclick="getTransaction()">Get Details</button>
+      <pre id="result"></pre>
+   </body>
+
+</html>
