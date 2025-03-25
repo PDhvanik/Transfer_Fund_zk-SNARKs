@@ -1,5 +1,9 @@
+const Groth16Verifier = artifacts.require("Groth16Verifier");
 const FundTransfer = artifacts.require("FundTransfer");
 
-module.exports = function (deployer) {
-   deployer.deploy(FundTransfer, { gas: 5000000 });
+module.exports = async function (deployer) {
+   await deployer.deploy(Groth16Verifier);
+   const verifierInstance = await Groth16Verifier.deployed();
+
+   await deployer.deploy(FundTransfer, verifierInstance.address);
 };

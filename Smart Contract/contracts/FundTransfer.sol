@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+import "./Groth16Verifier.sol";
+
 contract FundTransfer {
+    Groth16Verifier private verifier;
+
     struct Transaction {
         uint256 id;
         address sender;
-        address receiver; // Added receiver
         uint256 senderBalance;
         uint256 amount;
         string transactionId;
@@ -18,41 +21,42 @@ contract FundTransfer {
     event TransferFund(
         uint256 indexed id,
         address indexed sender,
-        address indexed receiver,
         uint256 senderBalance,
         uint256 amount,
         string transactionId,
         string details
     );
 
+    constructor(address _verifierAddress) {
+        verifier = Groth16Verifier(_verifierAddress);
+    }
+
     function transferFund(
         uint256 _id,
-        address payable _receiver, // Added receiver as function parameter
         uint256 _amount,
         string memory _transactionId,
-        string memory _details
-    ) public payable {
-        require(_amount > 0, "Amount must be greater than zero");
-        require(msg.value == _amount, "Sent value must match amount");
-        require(_receiver != address(0), "Invalid receiver address");
+        string memory _details,
+        uint[2] calldata _pA,
+        uint[2][2] calldata _pB,
+        uint[2] calldata _pC,
+        uint[1] calldata _pubSignals
+    ) public {
+        require(
+            verifier.verifyProof(_pA, _pB, _pC, _pubSignals),
+            "Invalid proof"
+        );
 
-        uint256 senderBalance = address(msg.sender).balance;
-
-        // Transfer funds to the receiver
-        _receiver.transfer(_amount);
-
-        // Store transaction details
+        uint256 senderBalance = msg.sender.balance;
         transactions[transactionCount] = Transaction(
             _id,
             msg.sender,
-            _receiver,
             senderBalance,
             _amount,
             _transactionId,
             _details
         );
 
-        emit TransferFund(_id, msg.sender, _receiver, senderBalance, _amount, _transactionId, _details);
+        emit TransferFund(_id, msg.sender, senderBalance, _amount, _transactionId, _details);
         transactionCount++;
     }
 

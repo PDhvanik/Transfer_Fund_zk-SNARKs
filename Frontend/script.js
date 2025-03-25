@@ -5,21 +5,14 @@ async function loadAccounts() {
       const data = await response.json();
 
       if (data.success) {
-         const select1 = document.getElementById("fromaccountSelect");
-         const select2 = document.getElementById("toaccountSelect");
-         select1.innerHTML = "";
-         select2.innerHTML = "";
+         const select = document.getElementById("fromaccountSelect");
+         select.innerHTML = "";
 
          data.accounts.forEach(account => {
-            const option1 = document.createElement("option");
-            option1.value = account;
-            option1.textContent = account;
-            select1.appendChild(option1);
-
-            const option2 = document.createElement("option");
-            option2.value = account;
-            option2.textContent = account;
-            select2.appendChild(option2);
+            const option = document.createElement("option");
+            option.value = account;
+            option.textContent = account;
+            select.appendChild(option);
          });
       } else {
          console.error("Failed to fetch accounts:", data.error);
@@ -38,13 +31,12 @@ async function transferFunds() {
    const amount = document.getElementById("amount").value;
    const transactionId = document.getElementById("transactionId").value;
    const details = document.getElementById("details").value;
-   const toAccount = document.getElementById("toaccountSelect").value;
    const fromAccount = document.getElementById("fromaccountSelect").value;
 
    const response = await fetch(`${serverUrl}/transfer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, amount, transactionId, details,fromAccount,toAccount })
+      body: JSON.stringify({ id, amount, transactionId, details,fromAccount})
    });
 
    const data = await response.json();
