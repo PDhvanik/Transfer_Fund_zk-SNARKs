@@ -1,6 +1,40 @@
 # Transfer_Fund_zk-SNARKs
 
-A privacy-preserving fund transfer system leveraging zk-SNARKs and Circom. This project demonstrates how to use zero-knowledge proofs to securely and privately transfer funds on the blockchain.
+**Brief Summary:**
+This project enables privacy-preserving fund transfers using zk-SNARKs. Users initiate transfers via a web interface; the backend generates a zero-knowledge proof for the transaction using Circom and snarkjs, then submits the proof and transaction data to an Ethereum smart contract. The contract verifies the proof and, if valid, records the transaction securely and privately on-chain.
+
+---
+
+## File & Directory Details
+
+### Backend/
+
+- **server.js**: Node.js/Express server. Handles API requests for fund transfers, generates zk-SNARK proofs using snarkjs, and interacts with the Ethereum smart contract via web3. Exposes endpoints for transferring funds and listing accounts.
+- **package.json**: Lists backend dependencies (express, snarkjs, web3, etc.) and scripts.
+
+### Frontend/
+
+- **index.html**: User interface for initiating fund transfers. Contains a form for entering transfer details and selecting accounts. Loads accounts from the backend and submits transfer requests.
+- **script.js**: Handles frontend logic. Fetches available accounts, sends transfer requests to the backend, and displays results to the user.
+
+### Smart Contract/
+
+- **contracts/FundTransfer.sol**: Main contract for recording fund transfers. Verifies zk-SNARK proofs using the Groth16 verifier before recording a transaction. Stores transaction details and emits events.
+- **contracts/Groth16Verifier.sol**: Solidity contract implementing the Groth16 zk-SNARK proof verification logic.
+- **migrations/2_deploy_contracts.js**: Truffle migration script to deploy the verifier and fund transfer contracts.
+- **truffle-config.js**: Truffle configuration for local/testnet deployment.
+
+### Circom/
+
+- **transfer.circom**: Circom circuit defining the logic for a valid fund transfer. Takes sender, receiver, amount, and transaction hash as inputs and outputs a validity signal.
+- **input.json**: Example input for the circuit (sender, receiver, amount, transactionHash).
+- **transfer_js/**: Contains WASM and JS files for witness generation (used by snarkjs and backend).
+  - **generate_witness.js**: Script for generating circuit witnesses.
+  - **transfer.wasm**: Compiled WASM version of the circuit.
+  - **witness_calculator.js**: JS utility for witness calculation.
+- **zkey/**, **powersoftau/**, **phase2/**: Trusted setup and proving/verification key files for Groth16 (used in proof generation and verification).
+- **transfer_proof_groth16.json**: Example proof output.
+- **verification_key_groth16.json**: Verification key for on-chain proof verification.
 
 ---
 
