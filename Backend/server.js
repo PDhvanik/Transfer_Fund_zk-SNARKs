@@ -47,11 +47,12 @@ async function generateProof(input) {
          proof: {
             pA: [proof.pi_a[0], proof.pi_a[1]],
             pB: [
-               [proof.pi_b[0][0], proof.pi_b[0][1]],
-               [proof.pi_b[1][0], proof.pi_b[1][1]],
+               [proof.pi_b[0][1], proof.pi_b[0][0]],
+               [proof.pi_b[1][1], proof.pi_b[1][0]]
             ],
             pC: [proof.pi_c[0], proof.pi_c[1]],
          },
+
          pubSignals: publicSignals.map((sig) => sig.toString()),
       };
    } catch (error) {
